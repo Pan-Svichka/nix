@@ -14,8 +14,8 @@
   fonts.fontconfig.enable = true;
 
   home = {
-    username = "pan_svichka";
-    homeDirectory = "/home/pan_svichka";
+    username = "$USER";
+    homeDirectory = "/home/$USER";
     # do not change this value
     stateVersion = "23.05";
 
