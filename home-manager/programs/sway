@@ -1,0 +1,269 @@
+#                                                                                                                         #
+#      ___           ___       ___           ___                    ___           ___           ___           ___         #
+#     /\  \         /\__\     /\  \         |\__\                  /\  \         /\__\         /\  \         |\__\        #
+#    /::\  \       /:/  /    /::\  \        |:|  |                /::\  \       /:/ _/_       /::\  \        |:|  |       #
+#   /:/\ \  \     /:/  /    /:/\:\  \       |:|  |               /:/\ \  \     /:/ /\__\     /:/\:\  \       |:|  |       #
+#  _\:\~\ \  \   /:/  /    /::\~\:\  \      |:|__|__            _\:\~\ \  \   /:/ /:/ _/_   /::\~\:\  \      |:|__|__     #
+# /\ \:\ \ \__\ /:/__/    /:/\:\ \:\__\     /::::\__\          /\ \:\ \ \__\ /:/_/:/ /\__\ /:/\:\ \:\__\     /::::\__\    #
+# \:\ \:\ \/__/ \:\  \    \/__\:\/:/  /    /:/~~/~             \:\ \:\ \/__/ \:\/:/ /:/  / \/__\:\/:/  /    /:/~~/~       #
+#  \:\ \:\__\    \:\  \        \::/  /    /:/  /                \:\ \:\__\    \::/_/:/  /       \::/  /    /:/  /         #
+#   \:\/:/  /     \:\  \       /:/  /     \/__/                  \:\/:/  /     \:\/:/  /        /:/  /     \/__/          #
+#    \::/  /       \:\__\     /:/  /                              \::/  /       \::/  /        /:/  /                     #
+#     \/__/         \/__/     \/__/                                \/__/         \/__/         \/__/                      #
+###########################################################################################################################
+
+# Set the font for window titles. This font will also be used by the bar unless a different font is specified there.
+font pango: Times New Roman 0.1 
+output * bg /home/pan_svichka/Pictures/wallpaper/archrunes.jpg fill
+#smart_borders on
+#disable_titlebar yes
+#Important#
+#exec --no-startup-id systemctl --user import-enviroment WAYLAND_DISPLAY XDG_CURRENT_DESKTOP
+#exec --no-startup-id dbus-update-activation-enviroment --systemd WAYLAND_DISPLAY XDG_CURRENT_DESKTOP=sway
+
+exec --no-startup-id fcitx5 -d &
+#exec --no-startup-id ibus-daemon -rxRd &
+exec --no-startup-id /usr/lib/ibus/ibus-ui-gtk3 --enable-wayland-im --exec-daemon --daemon-args "--xim --panel disable"
+exec --no-startup-id otd-daemon -d &
+exec --no-startup-id gammastep -O 2700 
+exec --no-startup-id pavucontrol
+exec_always --no-startup-id swaync 
+exec_always --no-startup-id import-gsettings
+#exec --no-startup-id autotiling
+exec waybar
+exec source ~/.zshenv
+
+
+#Other programs#
+exec firefox        
+exec aegisub        
+exec telegram-desktop 
+exec alacritty
+#exec --no-startup-id audacious  
+
+#exec swayidle -w \
+ #  timeout 600 'swaylock -f -c 000000' \
+ #  resume 'swaylock -f -c 000000 --daemon' \
+ #  before-sleep 'swaylock -f -c 000000'
+
+
+#Inputs#
+input 2522:10:A4Tech_PS/2+USB_Mouse left_handed enabled
+input 1112:390:SiGmaMicro_USB_Optical_Mouse left_handed enabled
+input 1386:221:Wacom_Bamboo_Connect_Pen left_handed enabled 
+input 0:0:OpenTabletDriver_Virtual_Tablet left_handed disabled
+
+#Set value
+set $up k
+set $down j
+set $left h
+set $right l
+
+set $Super Mod4
+set $mod Alt
+
+# Define names for default workspaces
+set $ws1 "1:Null"
+set $ws2 "2:F"
+set $ws3 "3:TG"
+set $ws4 "4:S"
+set $ws5 "5:J"
+set $ws6 "6:PMC"
+set $ws7 "7:PL"
+set $ws8 "8:8"
+set $ws9 "9:M"
+set $ws10 "10:P"
+set $ws11 "11:A"
+set $ws12 "12:O"
+set $ws13 "13:T"
+set $ws14 "14:K"
+set $ws15 "15:E"
+set $ws16 "16:D"
+
+# Assign applications to workspaces
+assign [app_id="firefox"] $ws2
+assign [app_id="org.telegram.desktop"] $ws3
+assign [class="TelegramDesktop"] $ws3
+assign [app_id="aegisub.*"] $ws4
+assign [class="aegisub"] $ws4
+assign [class="PollyMC"] $ws6
+assign [class="org-prismlauncher-EntryPoint"] $ws7
+assign [class="audacious"] $ws9
+assign [app_id="pavucontrol"] $ws10
+assign [class="Aseprite"] $ws11
+assign [class="osu!"] $ws12
+assign [class="org.qbittorrent.qBittorrent"] $ws13
+assign [app_id="subl"] $ws1
+assign [class="krita"] $ws14
+assign [app_id="libreoffice*"] $ws15
+assign [class="discord"] $ws16
+
+bindsym --to-code {
+#$Super+Space input type:keyboard xkb_switch_layout next
+# Screenshots using grim and slurp
+Print exec grim ~/Pictures/Screenshots/screenshot-$(date '+%Y-%m-%d-%H-%M-%S').png
+Shift+Print exec slurp | grim -g - ~/Pictures/Screenshots/screenshot-$(date '+%Y-%m-%d-%H-%M-%S').png
+
+# Volume Control
+XF86AudioRaiseVolume exec --no-startup-id pactl set-sink-volume @DEFAULT_SINK@ +5%      &&  $refresh_i3status
+XF86AudioLowerVolume exec --no-startup-id pactl set-sink-volume @DEFAULT_SINK@ -5%      &&  $refresh_i3status
+XF86AudioMute        exec --no-startup-id pactl set-sink-mute @DEFAULT_SINK@     toggle &&  $refresh_i3status
+XF86AudioMicMute     exec --no-startup-id pactl set-source-mute @DEFAULT_SOURCE@ toggle && $refresh_i3status 
+
+
+
+#$mod+Tab+q exec waybar --config=/home/pan_svichka/.config/waybar/style2/config2 --css=/home/pan_svichka/.config/waybar/style2/style2.css
+
+# Start a terminal
+$mod+Return exec alacritty 
+
+# Kill the focused window
+$mod+Shift+q kill
+
+# Start rofi (a program launcher)
+#$mod+d exec wofi --show drun
+$mod+d exec rofi -show drun
+
+#Scratchpad
+$mod+S scratchpad show
+$mod+Shift+S move scratchpad
+
+#Lock screen
+$mod+Control+x exec swaylock
+
+# Change focus
+$mod+$left focus left
+$mod+$down focus down
+$mod+$up focus up
+$mod+$right focus right
+
+# Move focused window
+$mod+Shift+$left move left
+$mod+Shift+$down move down
+$mod+Shift+$up move up
+$mod+Shift+$right move right
+
+# Split containers vertically/horizontally
+#$mod+a split h
+#$mod+ split v
+
+# Enter fullscreen mode for the focused container
+$mod+f fullscreen toggle
+
+# Change container layout (stacked, tabbed, toggle split)
+$mod+q layout stacking
+$mod+w layout tabbed
+$mod+e layout toggle split
+
+# Toggle tiling / floating
+$mod+Shift+space floating toggle
+
+# Change focus between tiling / floating windows
+$mod+space focus mode_toggle
+
+
+# Start some programs
+$mod+p exec aegisub
+$mod+m exec subl
+$Super+q exec aseprite
+$Super+a exec ~/prg/appimg/osu.AppImage
+$Super+w exec telegram-desktop
+$Super+b exec alacritty msg create-window --command=btop
+
+Control+Shift+q exec sudo poweroff
+Control+Shift+r exec sudo reboot
+
+#$Super+Space input type:keyboard xkb_switch_layout next
+#$mod+d exec j4-dmenu-desktop --dmenu="dmenu -i -nb '#000000' -nf '#FFFFFF' -sb '#FF6C00' -sf '#FFFFFF'" --term="cool-retro-term"
+
+
+# Switch to workspace
+$mod+1 workspace $ws1  
+$mod+2 workspace $ws2 
+$mod+3 workspace $ws3 
+$mod+4 workspace $ws4 
+$mod+5 workspace $ws5 
+$mod+6 workspace $ws6 
+$mod+7 workspace $ws7 
+$mod+8 workspace $ws8   
+$mod+9 workspace $ws9     
+$mod+0 workspace $ws10
+$mod+z workspace $ws11
+$mod+x workspace $ws12
+$mod+t workspace $ws13
+$mod+g workspace $ws14
+$mod+c workspace $ws15
+$mod+v workspace $ws16
+
+# Move focused container to workspace
+$mod+Shift+1 move container to workspace $ws1
+$mod+Shift+2 move container to workspace $ws2
+$mod+Shift+3 move container to workspace $ws3
+$mod+Shift+4 move container to workspace $ws4
+$mod+Shift+5 move container to workspace $ws5
+$mod+Shift+6 move container to workspace $ws6
+$mod+Shift+7 move container to workspace $ws7
+$mod+Shift+8 move container to workspace $ws8
+$mod+Shift+9 move container to workspace $ws9
+$mod+Shift+0 move container to workspace $ws10
+$mod+Shift+z move container to workspace $ws11
+$mod+Shift+x move container to workspace $ws12
+$mod+Shift+t move container to workspace $ws13
+$mod+Shift+g move container to workspace $ws14
+$mod+Shift+c move container to workspace $ws15
+$mod+Shift+v move container to workspace $ws16
+
+# Configuration Reloading and Exiting
+$mod+Shift+r reload
+$mod+Shift+e exec swaymsg exit
+$mod+r mode "resize"
+}
+
+# Resize window (you can also use the mouse for that)
+mode "resize" {
+    # These bindings trigger as soon as you enter the resize mode
+    # Pressing left will shrink the window’s width.
+    # Pressing right will grow the window’s width.
+    # Pressing up will shrink the window’s height.
+    # Pressing down will grow the window’s height.
+    bindsym $left       resize shrink width 10 px or 10 ppt
+    bindsym $down       resize grow height 10 px or 10 ppt
+    bindsym $up         resize shrink height 10 px or 10 ppt
+    bindsym $right      resize grow width 10 px or 10 ppt
+
+    # Same bindings, but for the arrow keys
+    bindsym Left        resize shrink width 10 px or 10 ppt
+    bindsym Down        resize grow height 10 px or 10 ppt
+    bindsym Up          resize shrink height 10 px or 10 ppt
+    bindsym Right       resize grow width 10 px or 10 ppt
+
+    # Back to normal: Enter or Escape or $mod+r
+    bindsym Return mode "default"
+    bindsym Escape mode "default"
+    bindsym $mod+r mode "default"
+}
+
+# Set colors
+set $bg-color            #000B0F
+set $inactive-bg-color   #171717
+set $text-color          #FF007A
+set $inactive-text-color #AD0053
+set $urgent-bg-color     #FF3B00
+
+# Window colors
+#                       border              background         text                  indicator
+client.focused          $bg-color           $bg-color          $text-color           #00ff00
+client.unfocused        $inactive-bg-color  $inactive-bg-color $inactive-text-color  #00ff00
+client.focused_inactive $inactive-bg-color  $inactive-bg-color $inactive-text-color  #00ff00
+client.urgent           $urgent-bg-color    $urgent-bg-color   $text-color           #00ff00
+hide_edge_borders both
+
+set $gnome-schema org.gnome.desktop.interface
+#seat seat0 xcursor_theme 'MOYASH-Black-Cursor-vr6-Linux'
+exec_always {
+    gsettings set $gnome-schema gtk-theme 'Solarized-BLACK-Magenta'
+    gsettings set $gnome-schema icon-theme 'cyberpunk-technotronic-icon-theme'
+    gsettings set $gnome-schema cursor-theme 'MOYASH-Black-Cursor-vr6-Linux'
+    gsettings set $gnome-scheme font 'Bainsley'
+#    gsettings set $gnome-schema font-name 'noto-fonts-emoji'
+}
