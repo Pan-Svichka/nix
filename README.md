@@ -1,18 +1,18 @@
 # nix
  My nixOs files
 
- In order to use copy git repo link and  write command 
+ In order to use copy git repo link and write modified command presented under inside your user directory.
 ```
 git clone {paste your link here}
 ```
-inside your user folder.
- Then 
+ Then run
 ```
 cp /etc/nixos/hardware-configuration.nix ~/nix/nixos/hardware-configuration.nix
 ```
- And open code editor of your choice and open `~/nix folder`, and edit everything you need, also `$USER` values should be replaced with your system username.
+ Open code editor of your choice and edit everything you need, also `$USER` values should be replaced with your system username.
+  
+ And after you done run
   
 ```
 sudo nixos-rebuild switch --flake .
 ```
-and after reboot you login inside tty and run hyprland.
