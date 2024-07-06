@@ -227,8 +227,8 @@
   programs = {
     git = {
       enable = true;
-      userName = "Pan-Svichka";
-      userEmail = "borzhomi232@pm.me";
+      userName = "$USER";
+      userEmail = "example@mail.com";
     };
 
     vscode = {
